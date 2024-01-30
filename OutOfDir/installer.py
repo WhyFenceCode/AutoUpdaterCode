@@ -71,11 +71,12 @@ def get_version():
         return None
     
 def create_folder(folder_name):
-    try:
-        os.mkdir(folder_name)
+    folder = Path(folder_name)
+    if not folder.exists():
+        folder.mkdir()
         print(f"Folder '{folder_name}' has been created.")
-    except OSError as error:
-        print(f"Error: {error}")
+    else:
+        print(f"Folder '{folder_name}' already exists.")
     
 def delete_folders(folders_to_keep):
     path = os.getcwd()
