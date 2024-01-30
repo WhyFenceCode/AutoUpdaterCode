@@ -9,6 +9,13 @@ import platform
 import win32com.client
 import sys
 from pathlib import Path
+import pyuac
+
+#Get Admin Privileges
+if not pyuac.isUserAdmin():
+        print("Re-launching as admin!")
+        pyuac.runAsAdmin()
+
 
 #Repo Info
 owner = 'WhyFenceCode'
