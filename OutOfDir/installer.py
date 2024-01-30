@@ -129,7 +129,10 @@ def create_shortcut(file_path, shortcut_name):
 
 def create_copy(destination_path):
     # Create the destination path if it doesn't exist
-    os.makedirs(destination_path, exist_ok=True)
+    if not os.path.exists(destination_path):
+        os.mkdir(destination_path)
+    else:
+        print(f'Path {destination_path} already exists.')
 
     # Copy the current script to the destination path
     current_script_path = os.path.realpath(__file__)
