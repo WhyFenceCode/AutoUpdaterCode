@@ -72,11 +72,11 @@ def get_version():
     
 def create_folder(folder_name):
     folder = Path(folder_name)
-    if not folder.exists():
-        folder.mkdir()
-        print(f"Folder '{folder_name}' has been created.")
-    else:
-        print(f"Folder '{folder_name}' already exists.")
+    if folder.exists():
+        shutil.rmtree(str(folder))
+        print(f"Folder '{folder_name}' has been removed.")
+    folder.mkdir()
+    print(f"Folder '{folder_name}' has been created.")
     
 def delete_folders(folders_to_keep):
     path = os.getcwd()
@@ -143,6 +143,7 @@ def create_copy(destination_path):
 
     # Copy the current script to the destination path
     current_script_path = os.path.realpath(__file__)
+    print(current_script_path)
     copied_script_path = os.path.join(destination_path, os.path.basename(current_script_path))
     print(copied_script_path)
     shutil.copy2(current_script_path, copied_script_path)
@@ -218,8 +219,8 @@ else:
 
     if install_allowed == True:
         print(get_program_files_directory())
-        create_copy(get_program_files_directory() + '\\' + repo)
-        newpath = get_program_files_directory() + '\\' + repo + '\\installer.py'
+        create_copy(get_program_files_directory() + '\\.' + repo)
+        newpath = get_program_files_directory() + '\\.' + repo + '\\installer.py'
 
     if desktop_shortcut == True:
         create_shortcut(newpath, repo)
