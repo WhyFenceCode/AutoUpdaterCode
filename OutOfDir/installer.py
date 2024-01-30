@@ -70,6 +70,13 @@ def get_version():
     except:
         return None
     
+def create_folder(folder_name):
+    try:
+        os.mkdir(folder_name)
+        print(f"Folder '{folder_name}' has been created.")
+    except OSError as error:
+        print(f"Error: {error}")
+    
 def delete_folders(folders_to_keep):
     path = os.getcwd()
     dirs = [d for d in os.listdir(path) if os.path.isdir(os.path.join(path, d))]
@@ -128,11 +135,10 @@ def create_shortcut(file_path, shortcut_name):
     shortcut.save()
 
 def create_copy(destination_path):
-    # Create the destination path if it doesn't exist
-    if not os.path.exists(destination_path):
-        os.mkdir(destination_path)
-    else:
-        print(f'Path {destination_path} already exists.')
+    old_path = os.getcwd()
+    os.chdir(os.environ['LOCALAPPDATA'])
+    create_folder(repo)
+    os.chdir(old_path)
 
     # Copy the current script to the destination path
     current_script_path = os.path.realpath(__file__)
