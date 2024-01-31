@@ -11,12 +11,6 @@ import sys
 from pathlib import Path
 import pyuac
 
-#Get Admin Privileges
-if not pyuac.isUserAdmin():
-        print("Re-launching as admin!")
-        pyuac.runAsAdmin()
-
-
 #Repo Info
 owner = 'WhyFenceCode'
 repo = 'AutoUpdaterTest'
@@ -145,7 +139,7 @@ def create_shortcut(file_path, shortcut_name):
 def create_copy(destination_path):
     old_path = os.getcwd()
     os.chdir(os.environ['LOCALAPPDATA'])
-    create_folder(repo)
+    create_folder('.' + repo)
     os.chdir(old_path)
 
     # Copy the current script to the destination path
@@ -189,9 +183,13 @@ def install_ui():
     
 #Check if in program files
 #If do the following
-if is_child_of_program_files(os.getcwd()):
+        
+print(str(os.path.realpath(__file__)))
+
+if is_child_of_program_files(os.path.realpath(__file__)):
     if get_version() != None:
         #Get current version
+        os.chdir(os.environ['LOCALAPPDATA'])
         current_version = get_version()
 
         #Get online version
