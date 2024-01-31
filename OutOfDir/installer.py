@@ -250,5 +250,6 @@ else:
 
     if install_allowed == True:
         run_python_script_w_args(newpath, append_full)
+        delete_current_script()
 
     
