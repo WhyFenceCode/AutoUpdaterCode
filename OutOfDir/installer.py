@@ -206,6 +206,7 @@ if is_child_of_program_files(os.path.realpath(__file__)):
 
         run_python_script(current_version + '\\' + pathtorun)
     else:
+        os.chdir(os.environ['LOCALAPPDATA'] +'\\.' + repo)
         if show_ui == True:
             print("In Program Files")
             install_ui()
