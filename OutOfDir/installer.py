@@ -61,7 +61,7 @@ def download_and_extract_repo(owner, repo, folder_name):
 
 def get_version():
     try:
-        with open('manifest.txt', 'r') as f:
+        with open('.//manifest.txt', 'r') as f:
             content = f.read()
             match = re.search(r'version=(.*)', content)
             if match:
@@ -112,10 +112,10 @@ def get_program_files_directory():
         raise OSError('Unsupported OS')
 
 def run_python_script(script_path):
-    if not os.path.isfile(script_path):
-        raise FileNotFoundError(f"The file {script_path} does not exist.")
-    
-    os.system(f'python {script_path}')
+    try:
+        os.system(f'python ' + os.environ['LOCALAPPDATA'] + '\\.' + repo + '\\' + script_path)
+    except:
+        print(f'python {script_path} does not exist.')
 
 def run_python_script_w_args(script_path, args):
     if not os.path.isfile(script_path):
@@ -187,6 +187,7 @@ def install_ui():
 print(str(os.path.realpath(__file__)))
 
 if is_child_of_program_files(os.path.realpath(__file__)):
+    print(str(get_version()))
     if get_version() != None:
         #Get current version
         os.chdir(os.environ['LOCALAPPDATA'])
@@ -216,6 +217,13 @@ if is_child_of_program_files(os.path.realpath(__file__)):
             download_and_extract_repo(owner, repo, online_version)
             change_version(online_version)
             delete_folders([online_version, 'installer.py', 'manifest.txt', 'userData', repo])
+
+        else:
+            sys.exit()
+
+        current_version = get_version()
+
+        run_python_script(current_version + '\\' + pathtorun)
 
 else:
     if show_ui == True:
