@@ -190,7 +190,7 @@ if is_child_of_program_files(os.path.realpath(__file__)):
     print(str(get_version()))
     if get_version() != None:
         #Get current version
-        os.chdir(os.environ['LOCALAPPDATA'])
+        os.chdir(os.environ['LOCALAPPDATA'] +'\\.' + repo)
         current_version = get_version()
 
         #Get online version
