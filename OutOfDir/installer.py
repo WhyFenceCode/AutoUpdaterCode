@@ -9,7 +9,8 @@ import platform
 import win32com.client
 import sys
 from pathlib import Path
-import pyuac
+from pyshortcuts import make_shortcut
+import getpass
 
 #Repo Info
 owner = 'WhyFenceCode'
@@ -124,17 +125,14 @@ def run_python_script_w_args(script_path, args):
     print(f'python {script_path + args}')
     os.system(f'python {script_path + args}')
 
-def create_shortcut(file_path, shortcut_name):
-    if os.name != 'nt':
-        raise Exception('This function only works on Windows.')
+def create_shortcut(python_file, name):
+    # Get the user's desktop path
+    username = getpass.getuser()
+    desktop_path = f"C:\\Users\\{username}\\Desktop"
 
-    desktop = os.path.join(os.path.expanduser('~'), 'Desktop')
-    shortcut_path = os.path.join(desktop, f'{shortcut_name}.lnk')
+    # Create the shortcut
+    make_shortcut(python_file, name=name, icon='/home/user/icons/myicon.ico')
 
-    shell = win32com.client.Dispatch("WScript.Shell")
-    shortcut = shell.CreateShortCut(shortcut_path)
-    shortcut.Targetpath = file_path
-    shortcut.save()
 
 def create_copy(destination_path):
     old_path = os.getcwd()
