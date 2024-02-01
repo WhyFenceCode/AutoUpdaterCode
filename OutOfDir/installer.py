@@ -131,7 +131,7 @@ def create_shortcut(python_file, name):
     desktop_path = f"C:\\Users\\{username}\\Desktop"
 
     # Create the shortcut
-    make_shortcut(python_file, name=name, icon='/home/user/icons/myicon.ico')
+    make_shortcut(python_file, name=name)
 
 
 def create_copy(destination_path):
