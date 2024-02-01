@@ -185,10 +185,10 @@ def install_ui():
 print(str(os.path.realpath(__file__)))
 
 if is_child_of_program_files(os.path.realpath(__file__)):
+    os.chdir(os.environ['LOCALAPPDATA'] +'\\.' + repo)
     print(str(get_version()))
     if get_version() != None:
         #Get current version
-        os.chdir(os.environ['LOCALAPPDATA'] +'\\.' + repo)
         current_version = get_version()
 
         #Get online version
@@ -205,7 +205,6 @@ if is_child_of_program_files(os.path.realpath(__file__)):
 
         run_python_script(current_version + '\\' + pathtorun)
     else:
-        os.chdir(os.environ['LOCALAPPDATA'] +'\\.' + repo)
         if show_ui == True:
             print("In Program Files")
             install_ui()
