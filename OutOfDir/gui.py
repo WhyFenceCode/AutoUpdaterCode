@@ -2,9 +2,13 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-import sys
+
+do_desktop_shortcut = True
 
 class install_window(QtWidgets.QDialog):
+
+    def close_and_continue(self):
+        self.close()
 
     def change_stylesheet(self, button):
         # Reset all buttons to default style
@@ -40,6 +44,15 @@ class install_window(QtWidgets.QDialog):
             padding-left: 10px;
             text-align: left;
         """)
+
+    def allow_shortcut(self):
+        global do_desktop_shortcut
+        do_desktop_shortcut = True
+    
+    def refuse_shortcut(self):
+        global do_desktop_shortcut
+        do_desktop_shortcut = False
+
 
     def __init__(self):
         super().__init__()
@@ -107,6 +120,7 @@ class install_window(QtWidgets.QDialog):
 
         shortcut_on = QtWidgets.QPushButton("CREATE DESKTOP SHORTCUT")
         wdg_layout.addWidget(shortcut_on)
+        shortcut_on.clicked.connect(self.allow_shortcut)
         self.button_group.addButton(shortcut_on, id=1)
         shortcut_on.setFont(QFont('Calibri')) 
         shortcut_on.setStyleSheet(
@@ -129,6 +143,7 @@ class install_window(QtWidgets.QDialog):
 
         shortcut_off = QtWidgets.QPushButton("NO DESKTOP SHORTCUT")
         wdg_layout.addWidget(shortcut_off)
+        shortcut_off.clicked.connect(self.refuse_shortcut)
         self.button_group.addButton(shortcut_off, id=2)
         shortcut_off.setFont(QFont('Calibri')) 
         shortcut_off.setStyleSheet(
@@ -150,6 +165,7 @@ class install_window(QtWidgets.QDialog):
 
         go = QtWidgets.QPushButton("INSTALL")
         wdg_layout.addWidget(go)
+        go.clicked.connect(self.close_and_continue)
         go.setFont(QFont('Calibri')) 
         go.setStyleSheet(
             """
@@ -175,6 +191,9 @@ class install_window(QtWidgets.QDialog):
 
 
 class updates_window(QtWidgets.QDialog):
+
+    def close_and_continue(self):
+        self.close()
 
     def __init__(self, version):
         super().__init__()
@@ -261,6 +280,7 @@ class updates_window(QtWidgets.QDialog):
 
         go = QtWidgets.QPushButton("UPDATE")
         wdg_layout.addWidget(go)
+        go.clicked.connect(self.close_and_continue)
         go.setFont(QFont('Calibri')) 
         go.setStyleSheet(
             """
@@ -285,3 +305,5 @@ app = QtWidgets.QApplication([])
 win = install_window()
 #win = updates_window("1.0.0")
 app.exec()
+
+print(str(do_desktop_shortcut))
