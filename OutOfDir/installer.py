@@ -42,6 +42,8 @@ for arg in sys.argv:
 class install_window(QtWidgets.QDialog):
 
     def close_and_continue(self):
+        global install_allowed
+        install_allowed = True
         self.close()
 
     def change_stylesheet(self, button):
@@ -227,6 +229,8 @@ class install_window(QtWidgets.QDialog):
 class updates_window(QtWidgets.QDialog):
 
     def close_and_continue(self):
+        global update_allowed
+        update_allowed = True
         self.close()
 
     def __init__(self, version):
@@ -462,21 +466,16 @@ def delete_current_script():
     os.remove(script_path)
 
 def update_ui():
-    global update_allowed
     app = QtWidgets.QApplication([])
     #win = install_window()
     win = updates_window(get_online_version(owner, repo))
     app.exec()
 
-    update_allowed = True
-
 def install_ui():
-    global install_allowed
     app = QtWidgets.QApplication([])
     win = install_window()
     #win = updates_window(get_online_version(owner, repo))
     app.exec()
-    install_allowed = True
 
 #Main
     
@@ -536,7 +535,7 @@ else:
         create_copy(get_program_files_directory() + '\\.' + repo)
         newpath = get_program_files_directory() + '\\.' + repo + '\\installer.py'
 
-    if desktop_shortcut == True:
+    if desktop_shortcut == True and install_allowed == True:
         create_shortcut(newpath, repo)
 
     appendings = [' --no-ui']
